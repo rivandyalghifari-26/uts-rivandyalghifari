@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Untuk format tanggal
+import 'package:intl/intl.dart';
 import 'package:uts_rivandyalghifari_2310501100_mobilelanjut/ramal_page.dart'; // Import RamalPage
+import 'package:provider/provider.dart';
+import 'package:uts_rivandyalghifari_2310501100_mobilelanjut/providers/user_provider.dart';
 
 void main() => runApp(ZodiacApp());
 
@@ -88,12 +90,16 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
               onPressed: () {
                 if (nameController.text.isNotEmpty && selectedDate != null) {
+                  // Simpan ke Provider
+                  Provider.of<UserProvider>(context, listen: false)
+                      .setUser(nameController.text, selectedDate!);
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => RamalPage(
-                        nama: nameController.text, // Mengirim nama
-                        tanggalLahir: selectedDate!, // Mengirim tanggal lahir
+                        nama: nameController.text,  // Mengirimkan nama yang dimasukkan
+                        tanggalLahir: selectedDate!,  // Mengirimkan tanggal lahir yang dipilih
                       ),
                     ),
                   );
@@ -105,6 +111,7 @@ class _HomePageState extends State<HomePage> {
               },
               child: Text('Ramal Zodiak'),
             ),
+
           ],
         ),
       ),

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'providers/user_provider.dart';
+import 'package:provider/provider.dart';
+
+
 
 class RamalPage extends StatelessWidget {
   final String nama;
@@ -18,10 +22,14 @@ class RamalPage extends StatelessWidget {
     if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return 'Leo';
     if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return 'Virgo';
     if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return 'Libra';
-    if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return 'Scorpio';
-    if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return 'Sagitarius';
-    if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) return 'Capricorn';
-    if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return 'Aquarius';
+    if ((month == 10 && day >= 23) || (month == 11 && day <= 21))
+      return 'Scorpio';
+    if ((month == 11 && day >= 22) || (month == 12 && day <= 21))
+      return 'Sagitarius';
+    if ((month == 12 && day >= 22) || (month == 1 && day <= 19))
+      return 'Capricorn';
+    if ((month == 1 && day >= 20) || (month == 2 && day <= 18))
+      return 'Aquarius';
     if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) return 'Pisces';
     return 'Tidak diketahui';
   }
@@ -64,9 +72,13 @@ class RamalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String zodiac = getZodiac(tanggalLahir);
-    String zodiacInfo = getZodiacInfo(zodiac);
-    String monthInfo = getMonthInfo(tanggalLahir.month);
+    final userProvider = Provider.of<UserProvider>(context);
+    final nama = userProvider.nama;
+    final tanggalLahir = userProvider.tanggalLahir!;
+
+    final zodiac = getZodiac(tanggalLahir);
+    final zodiacInfo = getZodiacInfo(zodiac);
+    final monthInfo = getMonthInfo(tanggalLahir.month);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Hasil Ramalan")),
@@ -75,14 +87,17 @@ class RamalPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Halo, $nama!', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text('Halo, $nama!', style: const TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             Text('Bintang Anda: $zodiac', style: const TextStyle(fontSize: 18)),
             const SizedBox(height: 10),
-            Text('Info tentang bintang Anda:', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text('Info tentang bintang Anda:', style: const TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold)),
             Text(zodiacInfo),
             const SizedBox(height: 20),
-            Text('Menurut bulan: $monthInfo', style: const TextStyle(fontSize: 16)),
+            Text('Menurut bulan: $monthInfo',
+                style: const TextStyle(fontSize: 16)),
           ],
         ),
       ),
